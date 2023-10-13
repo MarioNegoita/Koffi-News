@@ -38,6 +38,11 @@ const theme = extendTheme({
       600: "#dff8fb", // 10% darker
     },
   },
+  breakpoints: {
+    sm: 320, // Small screens (portrait)
+    md: 375, // Medium screens (portrait)
+    lg: 768, // Large screens (portrait)
+  },
 });
 
 export default theme;
