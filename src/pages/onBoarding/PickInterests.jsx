@@ -84,7 +84,7 @@ const PickInterestsPage = ({ navigation }) => {
 
         console.log("Selected categories added successfully.");
         setIsLoading(false);
-        navigation.navigate("Home");
+        navigation.navigate("BottomTabs");
         return true; // Indicate success
       } catch (error) {
         console.error("Error adding selected categories:", error);
