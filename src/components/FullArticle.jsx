@@ -42,16 +42,20 @@ const FullArticle = ({
       >
         {title}
       </Heading>
-      <Image
-        source={{
-          uri: imageURL,
-        }}
-        alt="image"
-        width={Dimensions.get("window").width * 0.9}
-        height={((Dimensions.get("window").width * 0.9) / 16) * 9}
-        marginY="5"
-        borderRadius="xl"
-      />
+      {imageURL != "image" ? (
+        <Image
+          source={{
+            uri: imageURL,
+          }}
+          alt="image"
+          width={Dimensions.get("window").width * 0.9}
+          height={((Dimensions.get("window").width * 0.9) / 16) * 9}
+          marginY="5"
+          borderRadius="xl"
+        />
+      ) : (
+        "image"
+      )}
 
       <Text
         fontSize={{

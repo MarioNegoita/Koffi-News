@@ -7,6 +7,7 @@ import NameAndAgePage from "../src/pages/onBoarding/NameAndAge";
 import PickInterestsPage from "../src/pages/onBoarding/PickInterests";
 import BottomTabs from "./IndexBottomTabs";
 import { Box, Text } from "native-base";
+import Profile from "../src/pages/Profile";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ const AppRouter = ({ page }) => {
           <Stack.Screen name="SignUp" component={SignUpPage} />
           <Stack.Screen name="NameAndAge" component={NameAndAgePage} />
           <Stack.Screen name="PickInterests" component={PickInterestsPage} />
+          <Stack.Screen name="Profile" component={Profile} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

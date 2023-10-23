@@ -8,7 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabs = () => {
+const BottomTabs = ({ navigation }) => {
   return (
     <SafeAreaProvider>
       <StatusBar />
@@ -16,12 +16,12 @@ const BottomTabs = () => {
         initialRouteName="Home"
         screenOptions={{
           tabBarHideOnKeyboard: true,
-
+          headerShown: false,
           tabBarStyle: [styles.tabBar],
           tabBarLabelStyle: { color: "white", fontSize: 15 },
-          header: () => {
-            return <HeaderBar />;
-          },
+          // header: () => {
+          //   return <HeaderBar navigation={navigation} />;
+          // },
         }}
       >
         <Tab.Screen

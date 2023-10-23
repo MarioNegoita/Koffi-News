@@ -16,6 +16,7 @@ import {
   orderBy,
   updateDoc,
   increment,
+  where,
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -73,4 +74,5 @@ export {
   sendPasswordResetEmail,
   db,
   auth,
+  where,
 };

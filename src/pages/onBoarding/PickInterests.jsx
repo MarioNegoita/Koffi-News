@@ -2,23 +2,13 @@ import {
   Box,
   Text,
   VStack,
-  HStack,
   Heading,
   Checkbox,
   Button,
   Image,
 } from "native-base";
 import { useState } from "react";
-import {
-  auth,
-  db,
-  doc,
-  setDoc,
-  updateDoc,
-  collection,
-  getDoc,
-  deleteDoc,
-} from "../../../firebase/config";
+import { auth, db, doc, setDoc, collection } from "../../../firebase/config";
 
 const PickInterestsPage = ({ navigation }) => {
   const [selectedValues, setSelectedValues] = useState([]);
@@ -53,24 +43,6 @@ const PickInterestsPage = ({ navigation }) => {
         // Get a reference to the "interests" subcollection
         const categoriesRef = collection(userRef, "interests");
 
-        // For deleting exisitng data:
-        // try {
-        //   const querySnapshot = await getDocs(
-        //     collection(db, `games/${roomData.keyCode}/chat`),
-        //   );
-
-        //   querySnapshot.forEach((doc) => {
-        //     messageIDs.push(doc.id); // luam id ul fiecarui mesaj din colectia chat
-        //   }); // corespunzatoare camerei de joc
-        // } catch (err) {
-        //   console.log('Error: ', err);
-        // }
-
-        // for (let i = 0; i < messageIDs.length; i++) {
-        //   deleteDoc(doc(db, `games/${roomData.keyCode}/chat/${messageIDs[i]}`)); // il stergem
-        // }
-
-        // Add selected categories to the subcollection
         for (const category of selectedValues) {
           const newCategoryRef = doc(categoriesRef, category);
 
@@ -144,25 +116,25 @@ const PickInterestsPage = ({ navigation }) => {
               size="lg"
               colorScheme="orange"
               value="Politics"
-              checked={selectedValues.includes("Politics")}
-              onPress={() => handleCheckboxChange("Politics")}
+              checked={selectedValues.includes("Fashion")}
+              onPress={() => handleCheckboxChange("Fashion")}
             >
               <Text fontSize="xl" fontWeight="semibold">
-                Politics
+                Fashion
               </Text>
             </Checkbox>
             <Checkbox
               size="lg"
               colorScheme="orange"
               value="Crime"
-              checked={selectedValues.includes("Crime")}
-              onPress={() => handleCheckboxChange("Crime")}
+              checked={selectedValues.includes("Video Games")}
+              onPress={() => handleCheckboxChange("Video Games")}
             >
               <Text fontSize="xl" fontWeight="semibold">
-                Crime
+                Video Games
               </Text>
             </Checkbox>
-            <Checkbox
+            {/* <Checkbox
               size="lg"
               colorScheme="orange"
               value="Sport"
@@ -172,7 +144,7 @@ const PickInterestsPage = ({ navigation }) => {
               <Text fontSize="xl" fontWeight="semibold">
                 Sport
               </Text>
-            </Checkbox>
+            </Checkbox> */}
             <Checkbox
               size="lg"
               colorScheme="orange"

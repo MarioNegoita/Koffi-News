@@ -17,6 +17,7 @@
     "expo": "~49.0.11",
     "expo-status-bar": "~1.6.0",
     "firebase": "^9.17.2",
+    "lodash.debounce": "^4.0.8",
     "native-base": "^3.4.28",
     "patch-package": "^8.0.0",
     "react": "18.2.0",
