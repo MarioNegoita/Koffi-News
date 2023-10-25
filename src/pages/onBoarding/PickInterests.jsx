@@ -71,43 +71,29 @@ const PickInterestsPage = ({ navigation }) => {
   };
 
   return (
-    <Box flex={1} justifyContent="space-between" alignItems="center" safeArea>
+    <Box flex={1} alignItems="center" safeArea bgColor="background.500">
       <Box flex={1}>
-        <Box
-          flex={1}
-          alignItems="center"
-          justifyContent={"center"}
-          marginTop={5}
-        >
+        <Box alignItems="center" justifyContent="center" mt={5}>
           <Box justifyContent="center" alignItems="center">
             <Image
               source={{
-                uri: "https://i.pinimg.com/474x/6c/4f/a3/6c4fa3afa1295faa6820dfa0c04d262e.jpg",
+                uri: "https://i.pinimg.com/236x/25/2c/3d/252c3d6d4cc6cad5eda774fc3afe04ea.jpg",
               }}
               alt="image"
               size="2xl"
             />
           </Box>
           <Heading
-            fontWeight="semibold"
-            color="black"
+            fontWeight="bold"
+            color="primaryText.500"
             fontSize="2xl"
             textAlign="center"
-            marginBottom={4}
+            mt={5}
           >
             Pick what kind of news you wish to see
           </Heading>
-          <Heading
-            fontWeight="semibold"
-            color="black"
-            fontSize="xl"
-            textAlign="center"
-            marginBottom={4}
-          >
-            We made a list of the most common news categories.
-          </Heading>
         </Box>
-        <Box flex={1} alignItems="center" justifyContent={"center"}>
+        <Box alignItems="center" justifyContent="center" mt={20}>
           <VStack space={2} alignItems="flex-start">
             <Box>
               <Text>Selected: ({selectedValues.length})</Text>
@@ -162,16 +148,16 @@ const PickInterestsPage = ({ navigation }) => {
       <Button
         title="Confirm"
         rounded="full"
-        bg="primary3.500"
+        bg="button.500"
         width="90%"
         marginBottom="5%"
-        _pressed={{ bg: "primary2.500" }}
+        _pressed={{ bg: "accent.500" }}
         padding={3}
         onPress={handleConfirm}
         disabled={isLoading}
         isLoading={isLoading}
       >
-        <Text fontWeight="semibold" color="white" fontSize="xl">
+        <Text fontWeight="semibold" color="background.500" fontSize="xl">
           Confirm
         </Text>
       </Button>

@@ -117,13 +117,13 @@ export const SignUpPage = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <Center bg="primary5.500" h="100%" w="100%" safeArea mt={3}>
+      <Center bg="background.500" flex={1} safeArea>
         <Box w="80%">
-          <Heading size="xl" fontWeight="600" color="primary3.500">
-            Thank You For Joining!
+          <Heading size="xl" fontWeight="600" color="primaryText.500">
+            Welcome to KOFFI
           </Heading>
 
-          <Heading mt="1" size="md" fontWeight="semibold" color="primary4.500">
+          <Heading mt="1" size="md" fontWeight="semibold" color="coffee.500">
             Sign up to continue!
           </Heading>
 
@@ -132,7 +132,7 @@ export const SignUpPage = ({ navigation }) => {
               padding={2}
               borderBottomWidth="2"
               borderColor={`${isInvalidEmail ? "red.500" : "black"}`}
-              style={{ color: "black", fontSize: 15 }}
+              style={{ fontSize: 20 }}
               _focus={
                 isInvalidEmail
                   ? {
@@ -140,8 +140,8 @@ export const SignUpPage = ({ navigation }) => {
                       placeholderTextColor: "red.500",
                     }
                   : {
-                      borderColor: "primary4.500",
-                      placeholderTextColor: "primary4.500",
+                      borderColor: "accent.500",
+                      placeholderTextColor: "accent.500",
                     }
               }
               InputRightElement={
@@ -149,13 +149,15 @@ export const SignUpPage = ({ navigation }) => {
                   as={<Ionicons name="mail" />}
                   size={6}
                   mr="2"
-                  color={isInvalidEmail ? `red.500` : "primary4.500"}
+                  color={isInvalidEmail ? `red.500` : "primaryText.500"}
                 />
               }
               variant="underlined"
               placeholder="Email"
-              placeholderTextColor={isInvalidEmail ? `red.500` : "black"}
-              color={isInvalidEmail ? "red.500" : "white"}
+              placeholderTextColor={
+                isInvalidEmail ? `red.500` : "primaryText.500"
+              }
+              color={isInvalidEmail ? "red.500" : "primaryText.500"}
               value={email}
               onChangeText={(value) => {
                 setIsInvalidEmail(false);
@@ -166,17 +168,17 @@ export const SignUpPage = ({ navigation }) => {
             <Input
               padding={2}
               borderBottomWidth="2"
-              borderColor={`${isInvalidEmail ? "red.500" : "black"}`}
-              style={{ color: "black", fontSize: 15 }}
+              borderColor={`${isInvalidPassword ? "red.500" : "black"}`}
+              style={{ fontSize: 20 }}
               _focus={
-                isInvalidEmail
+                isInvalidPassword
                   ? {
                       borderColor: "red.500",
                       placeholderTextColor: "red.500",
                     }
                   : {
-                      borderColor: "primary4.500",
-                      placeholderTextColor: "primary4.500",
+                      borderColor: "accent.500",
+                      placeholderTextColor: "accent.500",
                     }
               }
               type={passWordHidden ? "password" : "text"}
@@ -185,14 +187,14 @@ export const SignUpPage = ({ navigation }) => {
                   as={<Ionicons name={passWordHidden ? "eye-off" : "eye"} />}
                   size={6}
                   mr="2"
-                  color={isInvalidEmail ? `red.500` : "primary4.500"}
+                  color={isInvalidPassword ? `red.500` : "primaryText.500"}
                   onPress={() => setPasswordHidden(!passWordHidden)}
                 />
               }
               variant="underlined"
               placeholder="Password"
               placeholderTextColor={isInvalidPassword ? `red.500` : "black"}
-              color={isInvalidPassword ? "red.500" : "white"}
+              color={isInvalidPassword ? "red.500" : "primaryText.500"}
               value={password}
               onChangeText={(value) => {
                 setIsInvalidPassword(false);
@@ -204,28 +206,28 @@ export const SignUpPage = ({ navigation }) => {
               title="Sign Up"
               rounded="full"
               medium
-              bg="primary3.500"
-              _pressed={{ bg: "primary2.500" }}
+              bg="button.500"
+              _pressed={{ bg: "accent.500" }}
               onPress={onSubmit}
               disabled={isLoading}
               isLoading={isLoading}
               //the size didnt match so i had to do this..
               _spinner={{ paddingY: "0.45" }}
             >
-              <Text fontWeight="semibold" color="white" fontSize="lg">
+              <Text fontWeight="semibold" color="coffee.500" fontSize="lg">
                 Sign Up
               </Text>
             </Button>
-            <HStack mt="1" justifyContent="center">
-              <Text fontSize="md" color="black">
+            <HStack mt="1" justifyContent="center" alignItems="center">
+              <Text fontSize="md" color="primaryText.500">
                 Already have an account? &nbsp;
               </Text>
 
               <Link
                 _text={{
-                  color: "primary4.500",
+                  color: "coffee.500",
                   fontWeight: "medium",
-                  fontSize: "md",
+                  fontSize: "lg",
                 }}
                 onPress={() => {
                   navigation.navigate("SignIn");

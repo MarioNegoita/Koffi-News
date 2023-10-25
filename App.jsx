@@ -33,10 +33,8 @@ export default function App() {
       const jsonValue = JSON.stringify({
         ...user,
         name: docSnap.data().name,
-        role: docSnap.data()?.role ? docSnap.data().role : null,
       });
       await AsyncStorage.setItem("user", jsonValue);
-      await AsyncStorage.setItem("settings", applicationSettings);
     } catch (err) {
       console.log("Err: ", err);
     }

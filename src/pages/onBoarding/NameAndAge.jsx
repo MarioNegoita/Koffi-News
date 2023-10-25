@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -13,6 +13,7 @@ import { OnboardFlow } from "react-native-onboard";
 import { Ionicons } from "@expo/vector-icons";
 import * as yup from "yup";
 import { auth, db, doc, setDoc, updateDoc } from "../../../firebase/config";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
 const loginSchema = yup.object({
   userName: yup.string().required("User Name Is Required"),
@@ -40,104 +41,110 @@ const NameAndAgePage = ({ navigation }) => {
   };
 
   return (
-    <Box flex={1} justifyContent="center" alignItems="center" safeArea>
-      <OnboardFlow
-        pages={[
-          {
-            title: "Welcome to Koffi",
-            subtitle: "Staying Connected And Entertained",
-            imageUri:
-              "https://i.pinimg.com/564x/d9/c9/18/d9c9186e6e500f8c158e232d4fb6a3b2.jpg",
-          },
-          {
-            title: "What are you intrested in?",
-            subtitle: "Press Get started and let us suit YOUR needs",
-            imageUri:
-              "https://i.pinimg.com/236x/e1/34/c8/e134c8611427702314f061e17f91b8f2.jpg",
-          },
-        ]}
-        type={"fullscreen"}
-      />
-
-      {/* USER NAME */}
-      <Box width="80%" alignItems="center" justifyContent="center" flex={1}>
-        <Heading fontWeight="semibold" color="black" fontSize="2xl">
-          How should we call you?
-        </Heading>
-        <Input
-          textAlign="center"
-          marginY={2}
-          padding={2}
-          borderBottomWidth="2"
-          borderColor={"black"}
-          style={{ color: "black" }}
-          fontSize="2xl"
-          _focus={{
-            borderColor: "primary3.500",
-            placeholderTextColor: "primary4.500",
-          }}
-          InputRightElement={
-            <Icon as={<Ionicons name="pencil" />} size={6} mr="2" />
-          }
-          variant="underlined"
-          placeholder="John Doe"
-          placeholderTextColor={"black"}
-          color={"white"}
-          value={userName}
-          onChangeText={(value) => {
-            setUserName(value);
-          }}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Box
+        flex={1}
+        justifyContent="center"
+        alignItems="center"
+        bg="background.500"
+        safeArea
+      >
+        <OnboardFlow
+          style={{ backgroundColor: "#F4E7DB" }}
+          pages={[
+            {
+              title: "Welcome to Koffi",
+              subtitle: "Stay Connected And Entertained",
+              imageUri:
+                "https://i.pinimg.com/474x/47/b6/cc/47b6cc19d44f1aaeca84efc8a157a55b.jpg",
+            },
+            {
+              title: "What are you intrested in?",
+              subtitle: "Press Get started and let us suit YOUR needs",
+              imageUri:
+                "https://i.pinimg.com/236x/e1/34/c8/e134c8611427702314f061e17f91b8f2.jpg",
+            },
+          ]}
+          type={"fullscreen"}
+          primaryColor="black"
         />
-      </Box>
-      {/* Age and nationality */}
-      <Box width="80%" alignItems="center" justifyContent="center" flex={1}>
-        <Heading fontWeight="semibold" color="black" fontSize="2xl">
-          How old are you ?
-        </Heading>
-        <Input
-          width="1/3"
-          textAlign="center"
-          marginY={2}
-          padding={2}
-          borderBottomWidth="2"
-          borderColor={"black"}
-          style={{ color: "black" }}
-          fontSize="2xl"
-          // placeholder="18"
-          _focus={{
-            borderColor: "primary3.500",
-            placeholderTextColor: "primary4.500",
-          }}
-          variant="underlined"
-          keyboardType="numeric"
-          placeholderTextColor={"black"}
-          color={"white"}
-          value={age}
-          onChangeText={(value) => {
-            setAge(value);
-          }}
-        />
-      </Box>
 
-      <Box width="100%" alignItems="center" justifyContent="center">
-        <Button
-          title="Sign Up"
-          rounded="full"
-          bg="primary3.500"
-          width="90%"
-          margin="5%"
-          _pressed={{ bg: "primary2.500" }}
-          padding={3}
-          disabled={isLoading}
-          isLoading={isLoading}
-          onPress={handleConfirm}
-        >
-          <Text fontWeight="semibold" color="white" fontSize="xl">
-            Confirm
-          </Text>
-        </Button>
+        {/* USER NAME */}
+        <Box alignItems="center" justifyContent="center" flex={1}>
+          <Heading fontWeight="semibold" color="primaryText.500" fontSize="2xl">
+            How should we call you?
+          </Heading>
+          <Input
+            marginY={5}
+            padding={2}
+            borderBottomWidth="2"
+            borderColor="primaryText.500"
+            width={{ lg: "40%", md: "80%", sm: "80%" }}
+            fontSize="2xl"
+            _focus={{
+              borderColor: "accent.500",
+              placeholderTextColor: "primaryText.500",
+            }}
+            textAlign="center"
+            variant="underlined"
+            placeholder="Name"
+            value={userName}
+            onChangeText={(value) => {
+              setUserName(value);
+            }}
+          />
+
+          <Heading
+            fontWeight="semibold"
+            color="primaryText.500"
+            fontSize="2xl"
+            mt={20}
+          >
+            How old are you ?
+          </Heading>
+          <Input
+            marginY={5}
+            padding={2}
+            width="100"
+            textAlign="center"
+            borderBottomWidth="2"
+            borderColor="primaryText.500"
+            fontSize="2xl"
+            _focus={{
+              borderColor: "accent.500",
+              placeholderTextColor: "primaryText.500",
+            }}
+            variant="underlined"
+            keyboardType="numeric"
+            placeholder="Age"
+            value={age}
+            onChangeText={(value) => {
+              setAge(value);
+            }}
+          />
+        </Box>
+        {/* Age and nationality */}
+
+        <Box width="100%" alignItems="center" justifyContent="center">
+          <Button
+            title="Sign Up"
+            rounded="full"
+            bg="coffee.500"
+            width="90%"
+            margin="5%"
+            _pressed={{ bg: "accent.500" }}
+            padding={3}
+            disabled={isLoading}
+            isLoading={isLoading}
+            onPress={handleConfirm}
+          >
+            <Text fontWeight="semibold" color="background.500" fontSize="xl">
+              Confirm
+            </Text>
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </TouchableWithoutFeedback>
   );
 };
 

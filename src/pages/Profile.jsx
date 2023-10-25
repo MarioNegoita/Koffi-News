@@ -19,6 +19,7 @@ import {
   deleteDoc,
   getDocs,
 } from "../../firebase/config";
+import { logout } from "../../firebase/firebase-fuctions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({ navigation }) => {
@@ -88,16 +89,28 @@ const Profile = ({ navigation }) => {
     }
   };
 
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem("articles");
+    await logout();
+    navigation.navigate("SignIn");
+  };
+
   return (
-    <Center flex={1}>
-      <Center bg="black" flex={1} width="95%" borderRadius="xl" mt="5%">
+    <Box flex={1} backgroundColor="background.500" alignItems="center">
+      <Center
+        bg="coffee.500"
+        width="95%"
+        borderRadius="xl"
+        mt="5%"
+        height={200}
+      >
         <Icon color="white" as={<Ionicons name="person-circle" />} size="5xl" />
         <Heading color="white" fontSize="2xl" mt="5">
           Hi Mario
         </Heading>
       </Center>
 
-      <Center flex={4}>
+      <Center mt="25%">
         <Heading> Edit Interests</Heading>
         <VStack space={2} alignItems="flex-start">
           <Box>
@@ -149,21 +162,49 @@ const Profile = ({ navigation }) => {
           </Checkbox>
         </VStack>
         <Button
-          rounded="xl"
-          bg="primary3.500"
-          _pressed={{ bg: "primary2.500" }}
+          title="Confirm"
+          rounded="full"
+          bg="button.500"
+          _pressed={{ bg: "accent.500" }}
+          mt={10}
+          px={10}
+          py={2}
           onPress={handleConfirm}
           disabled={isLoading}
           isLoading={isLoading}
-          mt="5"
-          px="5"
         >
-          <Text fontWeight="semibold" color="white" fontSize="md">
+          <Text
+            fontWeight="semibold"
+            color="coffee.500"
+            fontSize="lg"
+            textAlign="center"
+          >
             Confirm
           </Text>
         </Button>
+        <Button
+          title="Confirm"
+          rounded="full"
+          bg="button.500"
+          _pressed={{ bg: "accent.500" }}
+          mt={10}
+          px={10}
+          py={2}
+          onPress={() => handleLogout()}
+          disabled={isLoading}
+          isLoading={isLoading}
+        >
+          <Text
+            fontWeight="semibold"
+            color="accent.500"
+            fontSize="lg"
+            textAlign="center"
+          >
+            Log Out
+          </Text>
+        </Button>
       </Center>
-    </Center>
+    </Box>
   );
 };
 
