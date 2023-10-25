@@ -7,13 +7,13 @@ import { memo } from "react";
 import { Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const Header_Max_Height = 100;
+const Header_Max_Height = 70;
 const Header_Min_Height = 0;
 
 const HeaderBar = ({ animHeaderValue }) => {
   const navigation = useNavigation();
   const animateHeaderHeight = animHeaderValue.interpolate({
-    inputRange: [0, Header_Max_Height * 1.5],
+    inputRange: [0, Header_Max_Height * 2],
     outputRange: [Header_Max_Height, Header_Min_Height],
     extrapolate: "clamp",
   });
@@ -26,19 +26,19 @@ const HeaderBar = ({ animHeaderValue }) => {
       }}
     >
       <Box
-        bg="black"
+        bgColor="coffee.500"
         justifyContent="center"
         alignItems="center"
         flexDirection="row"
         height="100%"
       >
         <Box alignItems="center">
-          <Heading color="white">K O F I</Heading>
+          <Heading color="background.500">K O F I</Heading>
         </Box>
         <Box position="absolute" left={0} marginLeft={5}>
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <TouchableOpacity onPress={() => navigation.push("Profile")}>
             <Icon
-              color="white"
+              color="background.500"
               as={<Ionicons name="person-circle" />}
               size="4xl"
             />

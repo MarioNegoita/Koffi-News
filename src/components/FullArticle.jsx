@@ -21,7 +21,7 @@ const FullArticle = ({
   return (
     <Box
       width="95%"
-      borderColor="gray.400"
+      borderColor="accent.500"
       borderBottomWidth="2"
       p={2}
       mb="5"
@@ -36,7 +36,7 @@ const FullArticle = ({
           lg: "2xl",
         }}
         fontWeight="600"
-        color="primary3.500"
+        color="primaryText.500"
         textAlign="left"
         mt={5}
       >
@@ -64,13 +64,13 @@ const FullArticle = ({
           lg: "xl",
         }}
         fontWeight="600"
-        color="primary3.500"
+        color="primaryText.500"
         textAlign="left"
       >
         {expanded ? articleBody : `${articlePreview}...`}
       </Text>
       <Button
-        backgroundColor="black"
+        backgroundColor="button.500"
         rounded="xl"
         _pressed={{
           opacity: 0.5, // Opacity when pressed
@@ -78,7 +78,7 @@ const FullArticle = ({
         onPress={() => handleFullArticle()}
         my={5}
       >
-        <Text color="white" fontSize="md">
+        <Text color="coffee.500" fontSize="md" fontWeight="semibold">
           {expanded ? "Read Less" : "Read More"}
         </Text>
       </Button>

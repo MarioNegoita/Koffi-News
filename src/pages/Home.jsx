@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Box, Text, ScrollView, Button, FlatList } from "native-base";
+import { Box, Text, ScrollView } from "native-base";
 import FullArticle from "../components/FullArticle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import getNews from "../components/getNews";
-import { useNavigation } from "@react-navigation/native";
 import { RefreshControl } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import { Animated } from "react-native";
-import debounce from "lodash.debounce";
 
 const HomePage = () => {
   const scrollOffsetY = new Animated.Value(0);
@@ -83,7 +81,7 @@ const HomePage = () => {
   };
 
   return (
-    <Box safeArea>
+    <Box safeArea backgroundColor="background.500" flex={1}>
       <HeaderBar animHeaderValue={scrollOffsetY} />
       <ScrollView
         scrollEventThrottle={16}

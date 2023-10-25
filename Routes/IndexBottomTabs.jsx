@@ -3,7 +3,7 @@ import HomePage from "../src/pages/Home";
 import { Ionicons } from "@expo/vector-icons";
 import { Icon, StatusBar } from "native-base";
 import { StyleSheet } from "react-native";
-import HeaderBar from "../src/components/HeaderBar";
+
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
@@ -30,7 +30,11 @@ const BottomTabs = ({ navigation }) => {
           options={{
             tabBarLabel: "Home",
             tabBarIcon: ({ color }) => (
-              <Icon as={<Ionicons name="newspaper" />} size="2xl" />
+              <Icon
+                as={<Ionicons name="newspaper" />}
+                size="2xl"
+                color="white"
+              />
             ),
           }}
         />
@@ -42,7 +46,7 @@ const BottomTabs = ({ navigation }) => {
 const styles = StyleSheet.create({
   tabBar: {
     height: 60,
-    backgroundColor: "black",
+    backgroundColor: "#A17C5B",
     // backgroundColor: "#6F4E37",
   },
 });

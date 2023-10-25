@@ -6,7 +6,6 @@ import SignInPage from "../src/pages/auth/SignIn";
 import NameAndAgePage from "../src/pages/onBoarding/NameAndAge";
 import PickInterestsPage from "../src/pages/onBoarding/PickInterests";
 import BottomTabs from "./IndexBottomTabs";
-import { Box, Text } from "native-base";
 import Profile from "../src/pages/Profile";
 
 const Stack = createNativeStackNavigator();
