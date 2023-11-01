@@ -33,7 +33,7 @@ const HeaderBar = ({ animHeaderValue }) => {
         height="100%"
       >
         <Box alignItems="center">
-          <Heading color="background.500">K O F I</Heading>
+          <Heading color="background.500">K O F F I</Heading>
         </Box>
         <Box position="absolute" left={0} marginLeft={5}>
           <TouchableOpacity onPress={() => navigation.push("Profile")}>

@@ -1,21 +1,19 @@
 import { Dimensions } from "react-native";
 import { Image, Box, Heading, Text, Center, Button } from "native-base";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
-const FullArticle = ({
-  articleBody,
-  title,
-  imageURL,
-  onClick,
-  index,
-  articleRefs,
-}) => {
-  const [expanded, setExpanded] = useState(false);
+const ArticleCard = ({ articleBody, title, imageURL, comesFrom }) => {
+  const navigation = useNavigation();
+
   const articlePreview = articleBody?.slice(0, 200);
 
   const handleFullArticle = () => {
-    setExpanded(!expanded);
-    if (expanded) onClick(index);
+    navigation.push("Article", {
+      articleBody: articleBody,
+      title: title,
+      imageURL: imageURL,
+    });
   };
 
   return (
@@ -25,9 +23,9 @@ const FullArticle = ({
       borderBottomWidth="2"
       p={2}
       mb="5"
-      ref={(ref) => {
-        articleRefs[index] = ref;
-      }}
+      // ref={(ref) => {
+      //   articleRefs[index] = ref;
+      // }}
     >
       <Heading
         fontSize={{
@@ -42,7 +40,10 @@ const FullArticle = ({
       >
         {title}
       </Heading>
-      {imageURL != "image" ? (
+
+      {imageURL === "image" ? (
+        "image"
+      ) : imageURL ? (
         <Image
           source={{
             uri: imageURL,
@@ -53,9 +54,7 @@ const FullArticle = ({
           marginY="5"
           borderRadius="xl"
         />
-      ) : (
-        "image"
-      )}
+      ) : null}
 
       <Text
         fontSize={{
@@ -67,7 +66,7 @@ const FullArticle = ({
         color="primaryText.500"
         textAlign="left"
       >
-        {expanded ? articleBody : `${articlePreview}...`}
+        {articlePreview}...
       </Text>
       <Button
         backgroundColor="button.500"
@@ -79,11 +78,11 @@ const FullArticle = ({
         my={5}
       >
         <Text color="coffee.500" fontSize="md" fontWeight="semibold">
-          {expanded ? "Read Less" : "Read More"}
+          Read More
         </Text>
       </Button>
     </Box>
   );
 };
 
-export default FullArticle;
+export default ArticleCard;

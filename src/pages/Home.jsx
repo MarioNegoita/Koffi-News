@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Box, Text, ScrollView } from "native-base";
-import FullArticle from "../components/FullArticle";
+import FullArticle from "../components/ArticleCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import getNews from "../components/getNews";
 import { RefreshControl } from "react-native";
-import HeaderBar from "../components/HeaderBar";
+import HeaderBar from "../components/HeaderBarAnimated";
 import { Animated } from "react-native";
+import ArticleCard from "../components/ArticleCard";
+import SkeletonCard from "../components/SkeletonCard";
 
 const HomePage = () => {
   const scrollOffsetY = new Animated.Value(0);
@@ -55,37 +57,38 @@ const HomePage = () => {
     }
   };
 
-  const scrollToArticle = (index) => {
-    if (scrollViewRef.current) {
-      const selectedArticleRef = articleRefs[index];
-      if (selectedArticleRef) {
-        selectedArticleRef.measureLayout(scrollViewRef.current, (x, y) => {
-          scrollViewRef.current.scrollTo({ y, animated: false });
-        });
-      }
-    }
-  };
+  // const scrollToArticle = (index) => {
+  //   if (scrollViewRef.current) {
+  //     const selectedArticleRef = articleRefs[index];
+  //     if (selectedArticleRef) {
+  //       selectedArticleRef.measureLayout(scrollViewRef.current, (x, y) => {
+  //         scrollViewRef.current.scrollTo({ y, animated: false });
+  //       });
+  //     }
+  //   }
+  // };
 
   const onRefresh = async () => {
     // Perform your data fetching or refreshing logic here
 
     await AsyncStorage.removeItem("articles");
-
+    setIsLoading(true);
     fetchArticlesFromStorage();
     setRefreshing(true);
 
     // After fetching or refreshing, set refreshing to false to stop the loading indicator
     setTimeout(() => {
       setRefreshing(false);
+      setIsLoading(false);
     }, 1000);
   };
 
   return (
-    <Box safeArea backgroundColor="background.500" flex={1}>
+    <Box backgroundColor="background.500" flex={1}>
       <HeaderBar animHeaderValue={scrollOffsetY} />
       <ScrollView
         scrollEventThrottle={16}
-        ref={scrollViewRef}
+        // ref={scrollViewRef}
         onScroll={Animated.event(
           [
             {
@@ -104,17 +107,18 @@ const HomePage = () => {
       >
         <Box alignItems="center">
           {isLoading ? (
-            <Text>Loading...</Text>
+            <SkeletonCard />
           ) : (
             articles.map((article, index) => (
-              <FullArticle
+              <ArticleCard
                 key={index}
                 title={article.articleTitle}
                 articleBody={article.articleBody}
                 imageURL={article.articleImage}
-                onClick={scrollToArticle}
-                articleRefs={articleRefs}
+                // onClick={scrollToArticle}
+                // articleRefs={articleRefs}
                 index={index}
+                comesFrom={"For You"}
               />
             ))
           )}

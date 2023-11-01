@@ -24,7 +24,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({ navigation }) => {
   const [selectedValues, setSelectedValues] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
+  const [isLoadingLogOut, setIsLoadingLogOut] = useState();
 
   const handleCheckboxChange = (value) => {
     // Ma asigur ca folosesc cea mai recenta si corecta stare
@@ -40,7 +41,7 @@ const Profile = ({ navigation }) => {
 
   const handleConfirm = async () => {
     if (selectedValues.length) {
-      setIsLoading(true);
+      setIsLoadingConfirm(true);
       try {
         // Check if the user is authenticated
         const user = auth.currentUser;
@@ -74,22 +75,23 @@ const Profile = ({ navigation }) => {
 
         console.log("Selected categories added successfully.");
         await AsyncStorage.removeItem("articles");
-        setIsLoading(false);
+        setIsLoadingConfirm(false);
         // navigation.navigate("BottomTabs");
         return true; // Indicate success
       } catch (error) {
         console.error("Error adding selected categories:", error);
-        setIsLoading(false);
+        setIsLoadingConfirm(false);
         throw error;
       }
     } else {
       console.log("Empty array of selected categories.");
-      setIsLoading(false);
+      setIsLoadingConfirm(false);
       return false; // Indicate failure
     }
   };
 
   const handleLogout = async () => {
+    setIsLoadingLogOut(true);
     await AsyncStorage.removeItem("articles");
     await logout();
     navigation.navigate("SignIn");
@@ -170,8 +172,8 @@ const Profile = ({ navigation }) => {
           px={10}
           py={2}
           onPress={handleConfirm}
-          disabled={isLoading}
-          isLoading={isLoading}
+          disabled={isLoadingConfirm}
+          isLoading={isLoadingConfirm}
         >
           <Text
             fontWeight="semibold"
@@ -191,8 +193,8 @@ const Profile = ({ navigation }) => {
           px={10}
           py={2}
           onPress={() => handleLogout()}
-          disabled={isLoading}
-          isLoading={isLoading}
+          disabled={isLoadingLogOut}
+          isLoading={isLoadingLogOut}
         >
           <Text
             fontWeight="semibold"

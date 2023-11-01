@@ -5,6 +5,8 @@ import { Icon, StatusBar } from "native-base";
 import { StyleSheet } from "react-native";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import SectionsPage from "../src/pages/Sections";
+import QuickReadsPage from "../src/pages/QuickReads";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,23 +20,44 @@ const BottomTabs = ({ navigation }) => {
           tabBarHideOnKeyboard: true,
           headerShown: false,
           tabBarStyle: [styles.tabBar],
-          tabBarLabelStyle: { color: "white", fontSize: 15 },
-          // header: () => {
-          //   return <HeaderBar navigation={navigation} />;
-          // },
+          tabBarLabelStyle: { fontSize: 15 },
+          tabBarActiveTintColor: "#F4E7DB", // Change to the desired color
+          tabBarInactiveTintColor: "#1a120b",
+          // Change to the desired color
         }}
       >
+        <Tab.Screen
+          name="Sections"
+          component={SectionsPage}
+          options={{
+            tabBarLabel: "Sections",
+            tabBarIcon: ({ color }) => (
+              <Icon as={<Ionicons name="apps" />} size="2xl" color={color} />
+            ),
+          }}
+        />
         <Tab.Screen
           name="Home"
           component={HomePage}
           options={{
-            tabBarLabel: "Home",
+            tabBarLabel: "For You",
             tabBarIcon: ({ color }) => (
               <Icon
-                as={<Ionicons name="newspaper" />}
+                as={<Ionicons name="analytics" />}
                 size="2xl"
-                color="white"
+                color={color}
               />
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="Quick Reads"
+          component={QuickReadsPage}
+          options={{
+            tabBarLabel: "Quick Reads",
+            tabBarIcon: ({ color }) => (
+              <Icon as={<Ionicons name="flash" />} size="2xl" color={color} />
             ),
           }}
         />
@@ -47,6 +70,7 @@ const styles = StyleSheet.create({
   tabBar: {
     height: 60,
     backgroundColor: "#A17C5B",
+
     // backgroundColor: "#6F4E37",
   },
 });
