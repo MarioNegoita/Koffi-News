@@ -9,14 +9,11 @@ import { Animated } from "react-native";
 import ArticleCard from "../components/ArticleCard";
 import SkeletonCard from "../components/SkeletonCard";
 
-const HomePage = () => {
+const ForYouPage = () => {
   const scrollOffsetY = new Animated.Value(0);
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-
-  const scrollViewRef = useRef();
-  const articleRefs = [];
 
   useEffect(() => {
     fetchArticlesFromStorage();
@@ -24,9 +21,9 @@ const HomePage = () => {
     //Use only fetchData() for debug purpose. Get news directly from firestore, avoiding async storage
     // fetchData();
 
-    return () => {
-      articleRefs.length = 0;
-    };
+    // return () => {
+    //   articleRefs.length = 0;
+    // };
   }, []);
 
   const fetchArticlesFromStorage = async () => {
@@ -35,6 +32,7 @@ const HomePage = () => {
 
       if (storedArticles) {
         const parsedArticles = JSON.parse(storedArticles);
+
         setArticles(parsedArticles);
         setIsLoading(false);
       } else {
@@ -57,24 +55,13 @@ const HomePage = () => {
     }
   };
 
-  // const scrollToArticle = (index) => {
-  //   if (scrollViewRef.current) {
-  //     const selectedArticleRef = articleRefs[index];
-  //     if (selectedArticleRef) {
-  //       selectedArticleRef.measureLayout(scrollViewRef.current, (x, y) => {
-  //         scrollViewRef.current.scrollTo({ y, animated: false });
-  //       });
-  //     }
-  //   }
-  // };
-
   const onRefresh = async () => {
-    // Perform your data fetching or refreshing logic here
-
-    await AsyncStorage.removeItem("articles");
-    setIsLoading(true);
-    fetchArticlesFromStorage();
+    // Perform your data fetching or refreshing logic
     setRefreshing(true);
+    setIsLoading(true);
+    await AsyncStorage.removeItem("articles");
+
+    fetchArticlesFromStorage();
 
     // After fetching or refreshing, set refreshing to false to stop the loading indicator
     setTimeout(() => {
@@ -88,7 +75,6 @@ const HomePage = () => {
       <HeaderBar animHeaderValue={scrollOffsetY} />
       <ScrollView
         scrollEventThrottle={16}
-        // ref={scrollViewRef}
         onScroll={Animated.event(
           [
             {
@@ -128,4 +114,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default ForYouPage;

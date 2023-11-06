@@ -27,8 +27,8 @@ const CategoryArticleCard = ({ articleBody, title, imageURL, comesFrom }) => {
           <Box flex={1}>
             <Heading
               fontSize={{
-                sm: "xl",
-                md: "2xl",
+                sm: "lg",
+                md: "xl",
                 lg: "2xl",
               }}
               color="primaryText.500"
@@ -38,7 +38,16 @@ const CategoryArticleCard = ({ articleBody, title, imageURL, comesFrom }) => {
             </Heading>
           </Box>
           {imageURL === "image" ? (
-            "image"
+            //for when article has no image stored
+            <Image
+              source={{
+                uri: "https://i.pinimg.com/236x/e2/18/eb/e218ebeb0706ebd4e7c056c7f28c0954.jpg",
+              }}
+              alt="image"
+              width={Dimensions.get("window").width * 0.4}
+              height={((Dimensions.get("window").width * 0.5) / 16) * 9}
+              borderRadius="xl"
+            />
           ) : imageURL ? (
             <Image
               source={{

@@ -55,7 +55,16 @@ const ArticlePage = ({ route }) => {
               borderRadius="xl"
             />
           ) : (
-            "image"
+            <Image
+              source={{
+                uri: "https://i.pinimg.com/236x/e2/18/eb/e218ebeb0706ebd4e7c056c7f28c0954.jpg",
+              }}
+              alt="image"
+              width={Dimensions.get("window").width * 0.9}
+              height={((Dimensions.get("window").width * 0.9) / 16) * 9}
+              marginY="5"
+              borderRadius="xl"
+            />
           )}
         </Center>
 

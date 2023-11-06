@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomePage from "../src/pages/Home";
+import ForYouPage from "../src/pages/ForYou";
 import { Ionicons } from "@expo/vector-icons";
 import { Icon, StatusBar } from "native-base";
 import { StyleSheet } from "react-native";
@@ -15,7 +15,7 @@ const BottomTabs = ({ navigation }) => {
     <SafeAreaProvider>
       <StatusBar />
       <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName="ForYou"
         screenOptions={{
           tabBarHideOnKeyboard: true,
           headerShown: false,
@@ -37,8 +37,8 @@ const BottomTabs = ({ navigation }) => {
           }}
         />
         <Tab.Screen
-          name="Home"
-          component={HomePage}
+          name="ForYou"
+          component={ForYouPage}
           options={{
             tabBarLabel: "For You",
             tabBarIcon: ({ color }) => (
@@ -50,7 +50,6 @@ const BottomTabs = ({ navigation }) => {
             ),
           }}
         />
-
         <Tab.Screen
           name="Quick Reads"
           component={QuickReadsPage}
