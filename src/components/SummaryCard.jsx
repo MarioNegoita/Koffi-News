@@ -5,8 +5,9 @@ import { Dimensions } from "react-native";
 const SummaryCard = ({ articleBody, title, imageURL }) => {
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height - 60; //60 is the height of the bottom tab navigator
+
   return (
-    <Box borderColor="accent.500" width={width} height={height}>
+    <Box width={width} height={height}>
       <Box>
         {imageURL === "image" ? (
           <Image
@@ -33,7 +34,7 @@ const SummaryCard = ({ articleBody, title, imageURL }) => {
           bg="background.500"
           p={4}
           //   position="relative"
-          top={-20}
+          top={-40}
         >
           <Heading
             fontSize={{

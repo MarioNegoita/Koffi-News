@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Box, FlatList } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { RefreshControl } from "react-native";
+import { Dimensions, RefreshControl } from "react-native";
 import SummaryCard from "../components/SummaryCard";
 import SummarySkeleton from "../components/SummarySkeleton";
+import { useScrollToTop } from "@react-navigation/native";
 
 const QuickReadsPage = () => {
   const [articles, setArticles] = useState([]);
   const [refreshing, setRefreshing] = useState();
   const [isLoading, setIsLoading] = useState();
+
+  const scrollViewRef = useRef(null);
+  const onScrollToTop = useScrollToTop(scrollViewRef);
 
   useEffect(() => {
     fetchArticlesFromStorage();
@@ -56,17 +60,20 @@ const QuickReadsPage = () => {
   );
 
   return (
-    <Box bg="background.500" flex={1}>
+    <Box bg="background.500" flex={1} safeArea>
       {isLoading || refreshing ? (
         <SummarySkeleton />
       ) : (
         <FlatList
+          ref={scrollViewRef}
           flex={1}
           data={articles} // Pass your data array
           renderItem={renderItem} // Render each item using the renderItem function
           keyExtractor={(item, index) => index.toString()}
-          showsHorizontalScrollIndicator={false}
           pagingEnabled
+          snapToAlignment="center"
+          decelerationRate={"fast"}
+          snapToInterval={Dimensions.get("window").height - 60}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }

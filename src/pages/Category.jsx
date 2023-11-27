@@ -42,7 +42,7 @@ const CategoryPage = ({ route }) => {
   };
 
   return (
-    <Box backgroundColor="background.500" flex={1}>
+    <Box backgroundColor="background.500" flex={1} safeArea>
       <Box height={70} bg="coffee.500" alignItems="center" flexDir="row">
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon

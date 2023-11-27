@@ -1,19 +1,20 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ForYouPage from "../src/pages/ForYou";
 import { Ionicons } from "@expo/vector-icons";
-import { Icon, StatusBar } from "native-base";
-import { StyleSheet } from "react-native";
-
+import { Icon } from "native-base";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SectionsPage from "../src/pages/Sections";
 import QuickReadsPage from "../src/pages/QuickReads";
+import { StatusBar } from "expo-status-bar";
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = ({ navigation }) => {
   return (
     <SafeAreaProvider>
-      <StatusBar />
+      <StatusBar style="light" backgroundColor="black" />
+
       <Tab.Navigator
         initialRouteName="ForYou"
         screenOptions={{
@@ -23,6 +24,7 @@ const BottomTabs = ({ navigation }) => {
           tabBarLabelStyle: { fontSize: 15 },
           tabBarActiveTintColor: "#F4E7DB", // Change to the desired color
           tabBarInactiveTintColor: "#1a120b",
+
           // Change to the desired color
         }}
       >

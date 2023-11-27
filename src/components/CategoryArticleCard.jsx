@@ -3,7 +3,7 @@ import { Image, Box, Heading, Text, Center, Button } from "native-base";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-const CategoryArticleCard = ({ articleBody, title, imageURL, comesFrom }) => {
+const CategoryArticleCard = ({ articleBody, title, imageURL }) => {
   const navigation = useNavigation();
   const date = new Date().toDateString();
 

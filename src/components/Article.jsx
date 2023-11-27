@@ -18,7 +18,7 @@ const ArticlePage = ({ route }) => {
   const navigation = useNavigation();
 
   return (
-    <Box bg="background.500" flex={1}>
+    <Box bg="background.500" flex={1} safeArea>
       <Box height={70} bg="coffee.500" alignItems="center" flexDir="row">
         <TouchableOpacity
           onPress={() => {
@@ -37,12 +37,12 @@ const ArticlePage = ({ route }) => {
         </Heading>
       </Box>
       <ScrollView>
-        <Box p={2} pt={5} borderBottomWidth={2} borderColor="accent.500">
+        <Box p={2} pt={5}>
           <Heading fontWeight="bold" color="primaryText.500" textAlign="left">
             {title}
           </Heading>
         </Box>
-        <Center>
+        <Center bg="button.500">
           {imageURL != "image" ? (
             <Image
               source={{

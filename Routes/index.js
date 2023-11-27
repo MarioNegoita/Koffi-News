@@ -9,6 +9,9 @@ import BottomTabs from "./IndexBottomTabs";
 import Profile from "../src/pages/Profile";
 import ArticlePage from "../src/components/Article";
 import CategoryPage from "../src/pages/Category";
+import BookmarksPage from "../src/pages/Bookmarks";
+import WordlePage from "../src/pages/Wordle";
+import { SafeAreaView } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +31,8 @@ const AppRouter = ({ page }) => {
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="Article" component={ArticlePage} />
           <Stack.Screen name="Category" component={CategoryPage} />
+          <Stack.Screen name="Bookmarks" component={BookmarksPage} />
+          <Stack.Screen name="Wordle" component={WordlePage} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

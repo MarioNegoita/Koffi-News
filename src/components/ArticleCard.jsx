@@ -12,6 +12,7 @@ import {
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ArticleCard = ({ articleBody, title, imageURL }) => {
   const navigation = useNavigation();
@@ -19,6 +20,46 @@ const ArticleCard = ({ articleBody, title, imageURL }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   const articlePreview = articleBody?.slice(0, 200);
+
+  const handleBookmark = async () => {
+    try {
+      const nonParsed = await AsyncStorage.getItem("bookmarks");
+      const existingBookmarks = JSON.parse(nonParsed) || [];
+
+      const isArticleAlreadyBookmarked = existingBookmarks.some(
+        (bookmark) => bookmark.articleTitle === title
+      );
+
+      if (!isArticleAlreadyBookmarked) {
+        const newBookmark = {
+          articleBody: articleBody,
+          articleTitle: title,
+          articleImage: imageURL,
+        };
+
+        const updatedBookmarks = [...existingBookmarks, newBookmark];
+
+        await AsyncStorage.setItem(
+          "bookmarks",
+          JSON.stringify(updatedBookmarks)
+        );
+        setIsBookmarked(true);
+      } else {
+        const updatedBookmarks = existingBookmarks.filter(
+          (bookmark) => bookmark.articleTitle !== title
+        );
+
+        await AsyncStorage.setItem(
+          "bookmarks",
+          JSON.stringify(updatedBookmarks)
+        );
+        setIsBookmarked(false);
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 
   const handleFullArticle = () => {
     navigation.push("Article", {
@@ -32,9 +73,9 @@ const ArticleCard = ({ articleBody, title, imageURL }) => {
     <Box
       width="95%"
       borderColor="accent.500"
-      borderBottomWidth="2"
+      borderTopWidth="2"
       p={2}
-      mb="5"
+      mt="5"
       // ref={(ref) => {
       //   articleRefs[index] = ref;
       // }}
@@ -45,8 +86,8 @@ const ArticleCard = ({ articleBody, title, imageURL }) => {
           md: "2xl",
           lg: "2xl",
         }}
-        fontWeight="600"
-        color="primaryText.500"
+        fontWeight="bold"
+        color="button.500"
         textAlign="left"
         mt={5}
       >
@@ -101,33 +142,23 @@ const ArticleCard = ({ articleBody, title, imageURL }) => {
           Read More
         </Text>
       </Button>
-      <Box
-        w="100%"
-        flexDir="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Text color="coffee.500">Liked by 100 others</Text>
-        <Box flexDir="row">
-          <TouchableOpacity onPress={() => setIsLiked(!isLiked)}>
-            <Icon
-              color="accent.500"
-              as={<Ionicons name={isLiked ? "heart" : "heart-outline"} />}
-              size="3xl"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setIsBookmarked(!isBookmarked)}>
-            <Icon
-              color="yellow.500"
-              as={
-                <Ionicons
-                  name={isBookmarked ? "bookmark" : "bookmark-outline"}
-                />
-              }
-              size="3xl"
-            />
-          </TouchableOpacity>
-        </Box>
+      <Box w="100%" flexDir="row" justifyContent="flex-end" alignItems="center">
+        <TouchableOpacity onPress={() => setIsLiked(!isLiked)}>
+          <Icon
+            color="accent.500"
+            as={<Ionicons name={isLiked ? "heart" : "heart-outline"} />}
+            size="3xl"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleBookmark()}>
+          <Icon
+            color="yellow.500"
+            as={
+              <Ionicons name={isBookmarked ? "bookmark" : "bookmark-outline"} />
+            }
+            size="3xl"
+          />
+        </TouchableOpacity>
       </Box>
     </Box>
   );

@@ -22,6 +22,7 @@ const HeaderBar = ({ animHeaderValue }) => {
     <Animated.View
       style={{
         height: animateHeaderHeight,
+
         // Adjust the color as needed
       }}
     >

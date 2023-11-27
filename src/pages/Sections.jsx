@@ -5,10 +5,10 @@ import HeaderBarNotAnimated from "../components/HeaderBarNotAnimated";
 import CategoryCard from "../components/CategoryCard";
 
 const SectionsPage = () => {
-  const categories = ["Fashion", "Tech", "Video Games"];
+  const categories = ["Fashion", "Tech", "Video Games", "Sport"];
 
   return (
-    <Box bg="background.500" flex={1}>
+    <Box bg="background.500" flex={1} safeArea>
       <HeaderBarNotAnimated />
 
       <Box flex={1}>
