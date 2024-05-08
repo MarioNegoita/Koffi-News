@@ -7,6 +7,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import SectionsPage from "../src/pages/Sections";
 import QuickReadsPage from "../src/pages/QuickReads";
 import { StatusBar } from "expo-status-bar";
+import SearchPage from "../src/pages/Search";
 
 const Tab = createBottomTabNavigator();
 
@@ -59,6 +60,16 @@ const BottomTabs = ({ navigation }) => {
             tabBarLabel: "Quick Reads",
             tabBarIcon: ({ color }) => (
               <Icon as={<Ionicons name="flash" />} size="2xl" color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          component={SearchPage}
+          options={{
+            tabBarLabel: "Search",
+            tabBarIcon: ({ color }) => (
+              <Icon as={<Ionicons name="search" />} size="2xl" color={color} />
             ),
           }}
         />

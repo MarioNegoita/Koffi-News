@@ -12,6 +12,8 @@ import CategoryPage from "../src/pages/Category";
 import BookmarksPage from "../src/pages/Bookmarks";
 import WordlePage from "../src/pages/Wordle";
 import { SafeAreaView } from "react-native";
+import SearchedArticlesPage from "../src/pages/SearchedArticles";
+import Test from "../src/pages/Test";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +25,8 @@ const AppRouter = ({ page }) => {
           {page === "SignIn" ? (
             <Stack.Screen name="SignIn" component={SignInPage} />
           ) : (
-            <Stack.Screen name="BottomTabs" component={BottomTabs} />
+            // <Stack.Screen name="BottomTabs" component={BottomTabs} />
+            <Stack.Screen name="Test" component={Test} /> //Uncomment after done testing
           )}
           <Stack.Screen name="SignUp" component={SignUpPage} />
           <Stack.Screen name="NameAndAge" component={NameAndAgePage} />
@@ -33,6 +36,11 @@ const AppRouter = ({ page }) => {
           <Stack.Screen name="Category" component={CategoryPage} />
           <Stack.Screen name="Bookmarks" component={BookmarksPage} />
           <Stack.Screen name="Wordle" component={WordlePage} />
+
+          <Stack.Screen
+            name="SearchedArticles"
+            component={SearchedArticlesPage}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>

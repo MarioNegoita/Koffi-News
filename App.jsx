@@ -24,7 +24,6 @@ export default function App() {
   };
 
   const storeData = async (user) => {
-    const applicationSettings = JSON.stringify({ textSizeChat: "md" });
     const docRef = doc(db, `users/${user.uid}`);
     // in this case user is the storage key we
     // need to has this and put the key in a safe place like db maybe
@@ -53,7 +52,7 @@ export default function App() {
           lastLoginAt: lastLoginAt,
         });
 
-        setIsLoggedIn("Home");
+        setIsLoggedIn("Test"); // Change to Home after done testing!!!
       } else {
         setIsLoggedIn("SignIn");
       }

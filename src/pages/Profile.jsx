@@ -9,6 +9,7 @@ import {
   VStack,
   Checkbox,
   HStack,
+  ScrollView,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -111,7 +112,7 @@ const Profile = ({ navigation }) => {
       >
         <Icon color="white" as={<Ionicons name="person-circle" />} size="5xl" />
         <Heading color="white" fontSize="2xl" mt="5">
-          Hi Mario
+          Change your prefrences here
         </Heading>
       </Center>
 
@@ -251,6 +252,7 @@ const Profile = ({ navigation }) => {
             bg="button.500"
             _pressed={{ bg: "accent.500" }}
             mt={10}
+            mb={5}
             px={10}
             py={2}
             onPress={handleConfirm}
@@ -268,6 +270,42 @@ const Profile = ({ navigation }) => {
           </Button>
         </Center>
       )}
+      <TouchableOpacity
+        style={{
+          justifyContent: "center",
+
+          width: "100%",
+        }}
+        onPress={() => {
+          navigation.push("Bookmarks");
+        }}
+      >
+        <HStack
+          alignItems="center"
+          bg="button.500"
+          width="100%"
+          p={1}
+          justifyContent="space-between"
+        >
+          <HStack alignItems="center">
+            <Icon
+              color="yellow.500"
+              as={<Ionicons name="checkmark-done" />}
+              size="3xl"
+            />
+            <Heading color="background.500" fontSize="xl">
+              Terms & Conditions
+            </Heading>
+          </HStack>
+          <Box>
+            <Icon
+              color="background.500"
+              as={<Ionicons name="chevron-forward" />}
+              size="3xl"
+            />
+          </Box>
+        </HStack>
+      </TouchableOpacity>
       <Button
         title="Confirm"
         rounded="full"

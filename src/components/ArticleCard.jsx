@@ -1,4 +1,4 @@
-import { Dimensions, TouchableOpacity } from "react-native";
+import { Dimensions, Linking, TouchableOpacity } from "react-native";
 import {
   Image,
   Box,
@@ -14,7 +14,14 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ArticleCard = ({ articleBody, title, imageURL }) => {
+const ArticleCard = ({
+  articleBody,
+  title,
+  imageURL,
+  comesFrom,
+  source,
+  articleUrl,
+}) => {
   const navigation = useNavigation();
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -69,6 +76,11 @@ const ArticleCard = ({ articleBody, title, imageURL }) => {
     });
   };
 
+  const handleLinkPress = () => {
+    const url = articleUrl;
+    Linking.openURL(url);
+  };
+
   return (
     <Box
       width="95%"
@@ -112,10 +124,22 @@ const ArticleCard = ({ articleBody, title, imageURL }) => {
           alt="image"
           width={Dimensions.get("window").width * 0.9}
           height={((Dimensions.get("window").width * 0.9) / 16) * 9}
-          marginY="5"
           borderRadius="xl"
+          mt={5}
         />
       ) : null}
+
+      {comesFrom == "Search" && (
+        <TouchableOpacity
+          onPress={() => {
+            handleLinkPress();
+          }}
+        >
+          <Text color="coffee.500" fontSize="md" my={2}>
+            {source}
+          </Text>
+        </TouchableOpacity>
+      )}
 
       <Text
         fontSize={{
@@ -142,24 +166,33 @@ const ArticleCard = ({ articleBody, title, imageURL }) => {
           Read More
         </Text>
       </Button>
-      <Box w="100%" flexDir="row" justifyContent="flex-end" alignItems="center">
-        <TouchableOpacity onPress={() => setIsLiked(!isLiked)}>
-          <Icon
-            color="accent.500"
-            as={<Ionicons name={isLiked ? "heart" : "heart-outline"} />}
-            size="3xl"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleBookmark()}>
-          <Icon
-            color="yellow.500"
-            as={
-              <Ionicons name={isBookmarked ? "bookmark" : "bookmark-outline"} />
-            }
-            size="3xl"
-          />
-        </TouchableOpacity>
-      </Box>
+      {comesFrom != "Search" && (
+        <Box
+          w="100%"
+          flexDir="row"
+          justifyContent="flex-end"
+          alignItems="center"
+        >
+          <TouchableOpacity onPress={() => setIsLiked(!isLiked)}>
+            <Icon
+              color="accent.500"
+              as={<Ionicons name={isLiked ? "heart" : "heart-outline"} />}
+              size="3xl"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleBookmark()}>
+            <Icon
+              color="yellow.500"
+              as={
+                <Ionicons
+                  name={isBookmarked ? "bookmark" : "bookmark-outline"}
+                />
+              }
+              size="3xl"
+            />
+          </TouchableOpacity>
+        </Box>
+      )}
     </Box>
   );
 };

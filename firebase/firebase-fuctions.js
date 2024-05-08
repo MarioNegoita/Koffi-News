@@ -9,6 +9,7 @@ import {
   signOut,
 } from "./config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 
 export const registration = async (email, password) => {
   try {
@@ -31,9 +32,12 @@ export const registration = async (email, password) => {
 
 export const signIn = async (email, password) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
-
-    return 200;
+    await signInWithEmailAndPassword(auth, email, password).then(
+      async (userCredentials) => {
+        await saveAuthToken("jwt", userCredentials._tokenResponse.idToken);
+        return 200;
+      }
+    );
   } catch (_) {
     return 500;
   }
@@ -60,4 +64,8 @@ const removeValue = async () => {
   } catch (e) {
     console.log(e);
   }
+};
+
+const saveAuthToken = async (key, value) => {
+  await SecureStore.setItemAsync(key, value);
 };

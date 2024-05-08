@@ -84,16 +84,12 @@ const ForYouPage = () => {
   };
 
   const getFunFacts = async () => {
-    const limit = 3;
     try {
-      const response = await axios.get(
-        "https://api.api-ninjas.com/v1/facts?limit=" + limit,
-        {
-          headers: {
-            "X-Api-Key": ninjaKey,
-          },
-        }
-      );
+      const response = await axios.get("https://api.api-ninjas.com/v1/facts", {
+        headers: {
+          "X-Api-Key": ninjaKey,
+        },
+      });
       setFunFacts(response.data);
     } catch (error) {
       console.error("Error fetching fun facts:", error);
