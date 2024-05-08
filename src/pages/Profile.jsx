@@ -24,6 +24,7 @@ import {
 import { logout } from "../../firebase/firebase-fuctions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableOpacity } from "react-native";
+import * as secureStore from "expo-secure-store";
 
 const Profile = ({ navigation }) => {
   const [selectedValues, setSelectedValues] = useState([]);
@@ -97,7 +98,9 @@ const Profile = ({ navigation }) => {
   const handleLogout = async () => {
     setIsLoadingLogOut(true);
     await AsyncStorage.removeItem("articles");
+    await secureStore.deleteItemAsync("jwt");
     await logout();
+    setIsLoadingLogOut(false);
     navigation.navigate("SignIn");
   };
 
