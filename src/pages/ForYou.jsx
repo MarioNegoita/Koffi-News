@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef, Fragment } from "react";
-import { Box, Text, ScrollView } from "native-base";
+import { Box, Text, ScrollView, FlatList } from "native-base";
 import FullArticle from "../components/ArticleCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import getNews from "../components/getNews";
-import { RefreshControl } from "react-native";
+import { RefreshControl, ActivityIndicator } from "react-native";
 import HeaderBar from "../components/HeaderBarAnimated";
 import { Animated } from "react-native";
 import ArticleCard from "../components/ArticleCard";
@@ -24,23 +24,24 @@ const ForYouPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [weatherData, setWeatherData] = useState();
-  const scrollViewRef = useRef(null);
-  const onScrollToTop = useScrollToTop(scrollViewRef); // for scrolling up when clicking the navigation button
-  const weatherKey = "2faa2d5bdcf593b0a1b5011a32dd2896"; //DONT FORGET TO REMOVE!!!!!!!!!!!!!!!!
-  const ninjaKey = "TTFij1m4faQDtG5Rn4/EtQ==zG2qRFT4GgAEkbFe"; //DONT FORGET TO REMOVE!!!!!!!!!!!!!!!!
   const [errorMsg, setErrorMsg] = useState(null);
   const [timeCapsule, setTimeCapsule] = useState("");
   const [funFacts, setFunFacts] = useState([]);
   const [quoteOfTheDay, setQuoteOfTheDay] = useState("");
+  const [isListLoading, setIsListLoading] = useState(false);
+  const scrollViewRef = useRef(null);
+  const onScrollToTop = useScrollToTop(scrollViewRef); // for scrolling up when clicking the navigation button
+  const pageIdentifier = useRef(1);
+  const limit = 10;
+
+  const weatherKey = process.env.EXPO_PUBLIC_WEATHER_API_KEY; //DONT FORGET TO REMOVE!!!!!!!!!!!!!!!!
+  const ninjaKey = process.env.EXPO_PUBLIC_NINJA_API_KEY; //DONT FORGET TO REMOVE!!!!!!!!!!!!!!!!
 
   //Gets news and weather info
   // Should be called every day
   useEffect(() => {
-    fetchArticlesFromStorage();
     getLocation();
-
-    //Use only fetchData() for debug purpose. Get news directly from firestore, avoiding async storage
-    // fetchData();
+    fetchData();
   }, []);
 
   // Gets data that should only be fetched once per day per user. So we should delete asyncStorage keys daily
@@ -124,29 +125,14 @@ const ForYouPage = () => {
     }
   };
 
-  const fetchArticlesFromStorage = async () => {
-    try {
-      const storedArticles = await AsyncStorage.getItem("articles");
-
-      if (storedArticles) {
-        const parsedArticles = JSON.parse(storedArticles);
-
-        setArticles(parsedArticles);
-        setIsLoading(false);
-      } else {
-        fetchData();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const fetchData = async () => {
     try {
-      const fetchedData = await getNews();
+      if (pageIdentifier.current == 1) setIsLoading(true);
+      const fetchedData = await getNews(pageIdentifier.current, limit);
+      if (fetchedData) {
+        setArticles((prevArticles) => [...prevArticles, ...fetchedData]);
+      }
 
-      await AsyncStorage.setItem("articles", JSON.stringify(fetchedData));
-      setArticles(fetchedData);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -182,9 +168,10 @@ const ForYouPage = () => {
     // Perform your data fetching or refreshing logic
     setRefreshing(true);
     setIsLoading(true);
-    await AsyncStorage.removeItem("articles");
-
-    await fetchArticlesFromStorage();
+    setArticles([]);
+    pageIdentifier.current = 1;
+    // await AsyncStorage.removeItem("articles");
+    fetchData();
     await getLocation();
 
     // After fetching or refreshing, set refreshing to false to stop the loading indicator
@@ -194,12 +181,96 @@ const ForYouPage = () => {
     }, 1000);
   };
 
+  const handleOnEndReached = async () => {
+    pageIdentifier.current++;
+    try {
+      setIsListLoading(true);
+      await fetchData();
+      setIsListLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const ListEndLoader = () => {
+    if (isListLoading) {
+      return <ActivityIndicator size={"medium"} color={"brown"} />;
+    }
+  };
+
   return (
     <Box backgroundColor="background.500" flex={1} safeArea>
       <HeaderBar animHeaderValue={scrollOffsetY} />
-      <ScrollView
+      {isLoading && <SkeletonCard />}
+      <FlatList
+        ref={scrollViewRef}
+        flex={1}
+        contentContainerStyle={{
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        data={articles}
+        onRefresh={onRefresh}
+        refreshing={refreshing}
+        onEndReachedThreshold={0.8}
+        onEndReached={handleOnEndReached}
+        ListFooterComponent={ListEndLoader}
+        renderItem={({ item, index }) => (
+          <>
+            {index == 0 && (
+              <Box alignItems="center" justifyContent="center" w="100%">
+                <WeatherCard data={weatherData} />
+              </Box>
+            )}
+            <ArticleCard
+              title={item.title}
+              articleBody={item.body}
+              imageURL={item.image}
+            />
+
+            {index == 1 && (
+              <Box
+                borderColor="accent.500"
+                borderTopWidth="2"
+                alignItems={"center"}
+              >
+                <QuoteOfTheDay quote={quoteOfTheDay} />
+              </Box>
+            )}
+            {index == 3 && (
+              <Box
+                borderColor="accent.500"
+                borderTopWidth="2"
+                alignItems="center"
+              >
+                <TimeCapsuleCard timeCapsuleText={timeCapsule} />
+              </Box>
+            )}
+            {index == 5 && (
+              <Box
+                borderColor="accent.500"
+                borderTopWidth="2"
+                alignItems="center"
+              >
+                <FunFactsCard funFacts={funFacts} />
+              </Box>
+            )}
+            {index == 7 && (
+              <Box
+                borderColor="accent.500"
+                borderTopWidth="2"
+                alignItems="center"
+              >
+                <WordleCard />
+              </Box>
+            )}
+          </>
+        )}
+      ></FlatList>
+
+      {/* <ScrollView
         ref={scrollViewRef}
         scrollEventThrottle={16}
+        //On scroll for header bar to hide when you start scrolling
         onScroll={Animated.event(
           [
             {
@@ -227,9 +298,9 @@ const ForYouPage = () => {
                 <Fragment key={index}>
                   <ArticleCard
                     key={index}
-                    title={article.articleTitle}
-                    articleBody={article.articleBody}
-                    imageURL={article.articleImage}
+                    title={article.title}
+                    articleBody={article.body}
+                    imageURL={article.image}
                     index={index}
                     comesFrom={"For You"}
                   />
@@ -258,7 +329,7 @@ const ForYouPage = () => {
             </>
           )}
         </Box>
-      </ScrollView>
+      </ScrollView> */}
     </Box>
   );
 };

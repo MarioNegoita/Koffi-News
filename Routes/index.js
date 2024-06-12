@@ -25,8 +25,8 @@ const AppRouter = ({ page }) => {
           {page === "SignIn" ? (
             <Stack.Screen name="SignIn" component={SignInPage} />
           ) : (
-            // <Stack.Screen name="BottomTabs" component={BottomTabs} />
-            <Stack.Screen name="Test" component={Test} /> //Uncomment after done testing
+            <Stack.Screen name="BottomTabs" component={BottomTabs} />
+            // <Stack.Screen name="Test" component={Test} /> //Uncomment after done testing
           )}
           <Stack.Screen name="SignUp" component={SignUpPage} />
           <Stack.Screen name="NameAndAge" component={NameAndAgePage} />

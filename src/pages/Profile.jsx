@@ -217,8 +217,8 @@ const Profile = ({ navigation }) => {
               size="lg"
               colorScheme="orange"
               value="Crime"
-              checked={selectedValues.includes("Video Games")}
-              onPress={() => handleCheckboxChange("Video Games")}
+              checked={selectedValues.includes("VideoGames")}
+              onPress={() => handleCheckboxChange("VideoGames")}
             >
               <Text fontSize="xl" fontWeight="semibold">
                 Video Games

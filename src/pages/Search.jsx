@@ -7,6 +7,7 @@ import {
   Text,
   Icon,
   HStack,
+  Center,
 } from "native-base";
 import HeaderBarNotAnimated from "../components/HeaderBarNotAnimated";
 import KeyWordsInput from "../components/SearchPage/KeyWordsInput";
@@ -32,7 +33,7 @@ const SearchPage = () => {
   return (
     <Box flex={1} bg="background.500" safeArea>
       <HeaderBarNotAnimated />
-      <LoadingModal
+      {/* <LoadingModal
         showModal={showModal}
         loadedSearch={loadedSearch}
         results={results}
@@ -102,7 +103,21 @@ const SearchPage = () => {
             setResults={setResults}
           />
         </Box>
-      </ScrollView>
+      </ScrollView> */}
+      <Center flex={1}>
+        <Heading
+          fontSize={{
+            sm: "2xl",
+            md: "3xl",
+            lg: "3xl",
+          }}
+          fontWeight="bold"
+          color="primaryText.500"
+          textAlign="left"
+        >
+          Still working on it, hold on tight!
+        </Heading>
+      </Center>
     </Box>
   );
 };

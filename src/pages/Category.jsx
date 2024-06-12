@@ -1,44 +1,69 @@
-import { View, Text } from "react-native";
-import { Box, Button, ScrollView, Icon, Heading } from "native-base";
-import { useEffect, useState } from "react";
-import {
-  db,
-  getDocs,
-  query,
-  collection,
-  where,
-  auth,
-} from "../../firebase/config";
+import { View, Text, ActivityIndicator } from "react-native";
+import { Box, Button, ScrollView, Icon, Heading, FlatList } from "native-base";
+import { useEffect, useRef, useState } from "react";
+import { auth } from "../../firebase/config";
 import FullArticle from "../components/ArticleCard";
 import { Ionicons } from "@expo/vector-icons";
 import CategoryArticleCard from "../components/CategoryArticleCard";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CategoryArticleSkeleton from "../components/CategoryArticleSkeleton";
+import axios from "axios";
 
 const CategoryPage = ({ route }) => {
   const category = route.params.category;
   const [articles, setArticles] = useState([]);
+  const [isListLoading, setIsListLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
+  const pageIdentifier = useRef(1);
+  const limit = 10;
 
   useEffect(() => {
-    fetchArticles();
+    fetchArticlesFromCategory();
   }, [category]);
 
-  const fetchArticles = async () => {
-    setIsLoading(true);
-    const date = new Date().toDateString(); // Get Data From Today
-    const colRef = collection(db, "news", date, "articles");
-    const q = query(colRef, where("articleCategory", "==", category));
-    const articleList = [];
+  const fetchArticlesFromCategory = async () => {
+    if (pageIdentifier == 1) setIsLoading(true);
+    let token = await auth.currentUser.getIdToken(true);
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      articleList.push(doc.data());
-    });
-    setIsLoading(false);
-    setArticles(articleList);
+    try {
+      // if (pageIdentifier.current == 1) setIsLoading(true);
+      const response = await axios.get(
+        `http://192.168.0.52:3000/news/article/${category
+          .replace(/ /g, "")
+          .toLowerCase()}?page=${pageIdentifier}&limit=${limit}`, // Delete all white spaces and  lowercase the catgory title
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      if (response.data) {
+        setArticles((prevArticles) => [...prevArticles, ...response.data]);
+
+        setIsLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleOnEndReached = async () => {
+    pageIdentifier.current++;
+    try {
+      setIsListLoading(true);
+      await fetchArticlesFromCategory();
+      setIsListLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const ListEndLoader = () => {
+    if (isListLoading) {
+      return <ActivityIndicator size={"medium"} color={"brown"} />;
+    }
   };
 
   return (
@@ -56,24 +81,25 @@ const CategoryPage = ({ route }) => {
           {category}
         </Heading>
       </Box>
-      <ScrollView>
-        <Box alignItems="center">
-          {isLoading ? (
-            <CategoryArticleSkeleton />
-          ) : (
-            articles.map((article, index) => (
-              <CategoryArticleCard
-                key={index}
-                title={article.articleTitle}
-                articleBody={article.articleBody}
-                imageURL={article.articleImage}
-                index={index}
-                comesFrom="Category"
-              />
-            ))
+
+      {isLoading ? (
+        <CategoryArticleSkeleton />
+      ) : (
+        <FlatList
+          flex={1}
+          data={articles}
+          onEndReachedThreshold={0.8}
+          onEndReached={handleOnEndReached}
+          ListFooterComponent={ListEndLoader}
+          renderItem={({ item, index }) => (
+            <CategoryArticleCard
+              title={item.title}
+              articleBody={item.body}
+              imageURL={item.image}
+            />
           )}
-        </Box>
-      </ScrollView>
+        />
+      )}
     </Box>
   );
 };

@@ -1,45 +1,51 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Box, FlatList } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Dimensions, RefreshControl } from "react-native";
+import { ActivityIndicator, Dimensions, RefreshControl } from "react-native";
 import SummaryCard from "../components/SummaryCard";
 import SummarySkeleton from "../components/SummarySkeleton";
 import { useScrollToTop } from "@react-navigation/native";
+import getNews from "../components/getNews";
 
 const QuickReadsPage = () => {
   const [articles, setArticles] = useState([]);
-  const [refreshing, setRefreshing] = useState();
+  const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState();
+  const [isListLoading, setIsListLoading] = useState(false);
 
   const scrollViewRef = useRef(null);
   const onScrollToTop = useScrollToTop(scrollViewRef);
 
-  useEffect(() => {
-    fetchArticlesFromStorage();
-  }, []);
-  const fetchArticlesFromStorage = async () => {
-    setIsLoading(true);
-    try {
-      const storedArticles = await AsyncStorage.getItem("articles");
+  const limit = 10;
+  const pageIdentifier = useRef(1);
 
-      if (storedArticles) {
-        const parsedArticles = JSON.parse(storedArticles);
-        setArticles(parsedArticles);
-      } else {
-        console.log("Not stored in async yet LOLOLOL");
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      if (pageIdentifier.current == 1) setIsLoading(true);
+      const fetchedData = await getNews(pageIdentifier.current, limit);
+
+      if (fetchedData) {
+        setArticles((prevArticles) => [...prevArticles, ...fetchedData]);
       }
+
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
   };
 
   const onRefresh = async () => {
     // Perform your data fetching or refreshing logic
-
-    setIsLoading(true);
     setRefreshing(true);
-    fetchArticlesFromStorage();
+    setIsLoading(true);
+    setArticles([]);
+    pageIdentifier.current = 1;
+    // await AsyncStorage.removeItem("articles");
+    fetchData();
 
     // After fetching or refreshing, set refreshing to false to stop the loading indicator
     setTimeout(() => {
@@ -48,13 +54,29 @@ const QuickReadsPage = () => {
     }, 1000);
   };
 
+  const handleOnEndReached = async () => {
+    pageIdentifier.current++;
+    try {
+      setIsListLoading(true);
+      await fetchData();
+      setIsListLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const ListEndLoader = () => {
+    if (isListLoading) {
+      return <ActivityIndicator size={"medium"} color={"brown"} />;
+    }
+  };
+
   // Define a function to render each item in the FlatList
   const renderItem = ({ item, index }) => (
     <SummaryCard
       key={index}
-      title={item.summaryTitle}
+      title={item.title}
       articleBody={item.summary}
-      imageURL={item.articleImage}
+      imageURL={item.image}
       index={index}
     />
   );
@@ -74,9 +96,12 @@ const QuickReadsPage = () => {
           snapToAlignment="center"
           decelerationRate={"fast"}
           snapToInterval={Dimensions.get("window").height - 60}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
+          onRefresh={onRefresh}
+          refreshing={refreshing}
+          onEndReachedThreshold={0.8}
+          onEndReached={handleOnEndReached}
+          ListFooterComponent={ListEndLoader}
+          disableIntervalMomentum={true}
         />
       )}
     </Box>

@@ -58,7 +58,6 @@ const WordlePage = ({ navigation }) => {
   useEffect(() => {
     const getActiveWord = async () => {
       const word = await AsyncStorage.getItem("wordleWord");
-
       setActiveWord(word.toUpperCase());
     };
     getActiveWord();

@@ -20,7 +20,7 @@ const BookmarksPage = ({ navigation }) => {
       setArticles(parsedArticles);
     }
 
-    return JSON.parse(articles);
+    return await JSON.parse(articles);
   };
 
   return (
@@ -48,7 +48,7 @@ const BookmarksPage = ({ navigation }) => {
             // onClick={scrollToArticle}
             // articleRefs={articleRefs}
             index={index}
-            comesFrom={"For You"}
+            comesFrom={"bookmarks"}
           />
         ))}
       </ScrollView>

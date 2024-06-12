@@ -33,7 +33,7 @@ const ArticleCard = ({
       const nonParsed = await AsyncStorage.getItem("bookmarks");
       const existingBookmarks = JSON.parse(nonParsed) || [];
 
-      const isArticleAlreadyBookmarked = existingBookmarks.some(
+      const isArticleAlreadyBookmarked = existingBookmarks.some( 
         (bookmark) => bookmark.articleTitle === title
       );
 

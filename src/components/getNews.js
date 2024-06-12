@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   db,
   getDocs,
@@ -7,20 +8,44 @@ import {
   auth,
 } from "../../firebase/config";
 
-const getNews = async () => {
-  const interests = await getUserInterests();
+// const getNews = async () => {
+//   const interests = await getUserInterests();
 
-  var articles = [];
-  const date = new Date().toDateString(); // Get Data From Today
-  const colRef = collection(db, "news", date, "articles");
-  const q = query(colRef, where("articleCategory", "in", interests));
+//   var articles = [];
+//   const date = new Date().toDateString(); // Get Data From Today
+//   const colRef = collection(db, "news", date, "articles");
+//   const q = query(colRef, where("articleCategory", "in", interests));
 
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    articles.push(doc.data());
-  });
+//   const querySnapshot = await getDocs(q);
+//   querySnapshot.forEach((doc) => {
+//     articles.push(doc.data());
+//   });
 
-  return articles;
+//   return articles;
+// };
+
+const getNews = async (page, limit) => {
+  try {
+    const categories = await getUserInterests();
+
+    let token = await auth.currentUser.getIdToken(true);
+    const response = await axios.get(
+      `http://192.168.0.52:3000/news/for-you?page=${page}&limit=${limit}&categories=${categories}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    if (response.data) {
+      return response.data;
+    }
+    return [];
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 };
 
 const getUserInterests = async () => {
@@ -30,7 +55,7 @@ const getUserInterests = async () => {
   const querySnapshot = await getDocs(colRef);
 
   querySnapshot.forEach((doc) => {
-    interestsArray.push(doc.data().categoryName);
+    interestsArray.push(doc.data().categoryName.toLowerCase());
   });
 
   return interestsArray;

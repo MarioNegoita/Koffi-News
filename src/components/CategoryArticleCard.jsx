@@ -1,9 +1,15 @@
 import { Dimensions, TouchableOpacity } from "react-native";
-import { Image, Box, Heading, Text, Center, Button } from "native-base";
+import { Image, Box, Heading, Text } from "native-base";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
-const CategoryArticleCard = ({ articleBody, title, imageURL }) => {
+const CategoryArticleCard = ({
+  articleBody,
+  title,
+  imageURL,
+  index,
+  comesFrom,
+}) => {
   const navigation = useNavigation();
   const date = new Date().toDateString();
 
@@ -12,6 +18,8 @@ const CategoryArticleCard = ({ articleBody, title, imageURL }) => {
       articleBody: articleBody,
       title: title,
       imageURL: imageURL,
+      index: index,
+      comesFrom: comesFrom,
     });
   };
 
