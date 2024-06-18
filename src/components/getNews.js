@@ -30,7 +30,8 @@ const getNews = async (page, limit) => {
 
     let token = await auth.currentUser.getIdToken(true);
     const response = await axios.get(
-      `http://192.168.0.52:3000/news/for-you?page=${page}&limit=${limit}&categories=${categories}`,
+      `https://koffi-news-backend-server.vercel.app/
+/news/for-you?page=${page}&limit=${limit}&categories=${categories}`,
       {
         headers: {
           Authorization: "Bearer " + token,

@@ -21,18 +21,19 @@ const CategoryPage = ({ route }) => {
 
   useEffect(() => {
     fetchArticlesFromCategory();
-  }, [category]);
+  }, []);
 
   const fetchArticlesFromCategory = async () => {
     if (pageIdentifier == 1) setIsLoading(true);
     let token = await auth.currentUser.getIdToken(true);
 
     try {
+      //https://koffi-news-backend-server.vercel.app/news/article/${category .replace(/ /g, "").toLowerCase()}?page=${pageIdentifier}&limit=${limit}
       // if (pageIdentifier.current == 1) setIsLoading(true);
       const response = await axios.get(
-        `http://192.168.0.52:3000/news/article/${category
+        `https://koffi-news-backend-server.vercel.app/news/article/${category
           .replace(/ /g, "")
-          .toLowerCase()}?page=${pageIdentifier}&limit=${limit}`, // Delete all white spaces and  lowercase the catgory title
+          .toLowerCase()}?page=${pageIdentifier.current}&limit=${limit}`, // Delete all white spaces and  lowercase the catgory title
         {
           headers: {
             Authorization: "Bearer " + token,
