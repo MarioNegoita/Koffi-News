@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "News-Concept",
+    "name": "Koffi News",
     "slug": "News-Concept",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appIcon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.",
+      "image": "./assets/splashScreen.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
@@ -17,10 +17,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/appIcon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.marionegoita.NewsConcept"
+      "package": "com.marionegoita.NewsConcept",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,6 +42,12 @@
         }
       ],
       "expo-secure-store"
-    ]
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/3b62c9eb-c9a7-4ed5-b8a2-b74ce74ab35b"
+    }
   }
 }
