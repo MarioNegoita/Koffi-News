@@ -27,9 +27,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="https://github.com/MarioNegoita/Koffi-News/assets/58939386/39331390-069b-4a1e-a6ad-729ae6d6ab5f" width='300'>
-<img src="https://github.com/MarioNegoita/Koffi-News/assets/58939386/afc5fa5a-c7fe-4172-b4e0-471c73c76ea4" width='300'>
-<img src="https://github.com/MarioNegoita/Koffi-News/assets/58939386/8f609ae0-0ba9-4024-9ca1-53fd85aad0d2" width='300'>
+<img src="https://github.com/MarioNegoita/Koffi-News/assets/58939386/39331390-069b-4a1e-a6ad-729ae6d6ab5f" width='200'>
+<img src="https://github.com/MarioNegoita/Koffi-News/assets/58939386/afc5fa5a-c7fe-4172-b4e0-471c73c76ea4" width='200'>
+<img src="https://github.com/MarioNegoita/Koffi-News/assets/58939386/8f609ae0-0ba9-4024-9ca1-53fd85aad0d2" width='200'>
 </br>
 </br>
 
