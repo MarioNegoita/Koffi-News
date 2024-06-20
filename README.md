@@ -60,14 +60,15 @@ This is a demo version. At this time, news articles are mocked and cached in the
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Installation
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+1. Click on the link-> https://expo.dev/accounts/marionegoita/projects/News-Concept/builds/f22ae7fd-cc50-4e66-a909-2f6f575d4035
+2. Click install.
+3. Scan the qr code with your android phone.
 
-### Installation
+Or scan the qr code below:
 
-
+<img src="https://github.com/MarioNegoita/Koffi-News/assets/58939386/890f3317-cfdf-4330-9678-d64a654dd705" width='300'>
 
 <!-- LICENSE -->
 ## License
