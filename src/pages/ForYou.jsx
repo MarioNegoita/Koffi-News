@@ -80,7 +80,7 @@ const ForYouPage = () => {
       setTimeCapsule(response.data[0].event);
       // console.log(response.data);
     } catch (error) {
-      console.error("Error fetching fun facts:", error);
+      console.error("Error fetching time capsule:", error);
     }
   };
 
@@ -160,7 +160,7 @@ const ForYouPage = () => {
         console.log(`Error: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching wordleWord:", error);
     }
   };
 
